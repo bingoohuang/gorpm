@@ -66,8 +66,8 @@ qtest:
 	@#go test -v -run TestNewBuild ./pkg/$(CORE_PKG)/*.go
 
 install:
-	@sudo rm -rf /usr/local/bin/gorpm
-	@sudo cp bin/gorpm /usr/local/bin/gorpm
+	@rm -rf /usr/local/bin/gorpm
+	@cp bin/gorpm /usr/local/bin/gorpm
 	@echo "Installed /usr/local/bin/gorpm"
 
 dep:

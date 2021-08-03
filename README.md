@@ -4,6 +4,8 @@ Build RPM Packages with Go.
 
 ***Note***: This library was forked from [mh-cbon/go-bin-rpm](https://github.com/mh-cbon/go-bin-rpm).
 
+`docker run -ti -v $PWD:/go/src/gorpm quay.io/influxdb/telegraf-ci:1.16.6 /bin/bash`
+
 <!-- begin-markdown-toc -->
 ## Table of Contents
 

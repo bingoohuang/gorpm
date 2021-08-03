@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/greenpau/gorpm/pkg/gorpm"
 	"github.com/greenpau/versioned"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 	"io/ioutil"
 	"log"
 	"os"
@@ -38,113 +38,27 @@ func main() {
 	cliApp.Version = app.Version
 	cliApp.Usage = "RPM utilities in Go"
 	cliApp.UsageText = fmt.Sprintf("%s <cmd> <options>", app.Name)
-	cliApp.Commands = []cli.Command{
-		{
-			Name:   "generate-spec",
-			Usage:  "Generate the SPEC file",
-			Action: generateSpec,
-			Flags: []cli.Flag{
-				&cli.StringFlag{
-					Name:  "file, f",
-					Value: "config.json",
-					Usage: "Path to the config.json file",
-				},
-				&cli.StringFlag{
-					Name:  "arch, a",
-					Value: "",
-					Usage: "Target CPU architecture of the build, e.g. amd64",
-				},
-				&cli.StringFlag{
-					Name:  "version",
-					Value: "",
-					Usage: "Target version of the build",
-				},
-				&cli.StringFlag{
-					Name:  "release",
-					Value: "",
-					Usage: "Target release of the build",
-				},
-				&cli.StringFlag{
-					Name:  "distro",
-					Value: "",
-					Usage: "Target distribution of the build",
-				},
-				&cli.StringFlag{
-					Name:  "cpu",
-					Value: "",
-					Usage: "Target CPU Instruction Set Architecture (ISA) of the build, e.g. x86_64",
-				},
-				&cli.StringFlag{
-					Name:  "output, o",
-					Value: "",
-					Usage: "File path to the resulting RPM .spec file",
-				},
-			},
-		},
-		{
-			Name:   "generate",
-			Usage:  "Generate the package",
-			Action: generatePkg,
-			Flags: []cli.Flag{
-				&cli.StringFlag{
-					Name:  "file, f",
-					Value: "config.json",
-					Usage: "Path to the config.json file",
-				},
-				&cli.StringFlag{
-					Name:  "build-area, b",
-					Value: "pkg-build",
-					Usage: "Path to the build area",
-				},
-				&cli.StringFlag{
-					Name:  "arch, a",
-					Value: "",
-					Usage: "Target CPU architecture of the build, e.g. amd64",
-				},
-				&cli.StringFlag{
-					Name:  "release",
-					Value: "",
-					Usage: "Target release of the build",
-				},
-				&cli.StringFlag{
-					Name:  "distro",
-					Value: "",
-					Usage: "Target distribution of the build",
-				},
-				&cli.StringFlag{
-					Name:  "cpu",
-					Value: "",
-					Usage: "Target CPU Instruction Set Architecture (ISA) of the build, e.g. x86_64",
-				},
-				&cli.StringFlag{
-					Name:  "output, o",
-					Value: "",
-					Usage: "File path to the resulting rpm file",
-				},
-				&cli.StringFlag{
-					Name:  "version",
-					Value: "",
-					Usage: "Target version of the build",
-				},
-				&cli.StringFlag{
-					Name:  "release",
-					Value: "",
-					Usage: "Target release of the build",
-				},
-			},
-		},
-		{
-			Name:   "test",
-			Usage:  "Test the package json file",
-			Action: testPkg,
-			Flags: []cli.Flag{
-				&cli.StringFlag{
-					Name:  "file, f",
-					Value: "config.json",
-					Usage: "Path to the config.json file",
-				},
-			},
-		},
+	cliApp.Commands = []*cli.Command{{
+		Name: "generate-spec", Usage: "Generate the SPEC file", Action: generateSpec, Flags: []cli.Flag{
+			&cli.StringFlag{Name: "file, f", Value: "config.json", Usage: "Path to the config.json file"},
+			&cli.StringFlag{Name: "arch, a", Value: "", Usage: "Target CPU architecture of the build, e.g. amd64"},
+			&cli.StringFlag{Name: "version", Value: "", Usage: "Target version of the build"},
+			&cli.StringFlag{Name: "release", Value: "", Usage: "Target release of the build"},
+			&cli.StringFlag{Name: "distro", Value: "", Usage: "Target distribution of the build"},
+			&cli.StringFlag{Name: "cpu", Value: "", Usage: "Target CPU Instruction Set Architecture (ISA) of the build, e.g. x86_64"},
+			&cli.StringFlag{Name: "output, o", Value: "", Usage: "File path to the resulting RPM .spec file"}}}, {
+		Name: "generate", Usage: "Generate the package", Action: generatePkg, Flags: []cli.Flag{
+			&cli.StringFlag{Name: "file, f", Value: "config.json", Usage: "Path to the config.json file"},
+			&cli.StringFlag{Name: "build-area, b", Value: "pkg-build", Usage: "Path to the build area"},
+			&cli.StringFlag{Name: "arch, a", Value: "", Usage: "Target CPU architecture of the build, e.g. amd64"},
+			&cli.StringFlag{Name: "release", Value: "", Usage: "Target release of the build"},
+			&cli.StringFlag{Name: "distro", Value: "", Usage: "Target distribution of the build"},
+			&cli.StringFlag{Name: "cpu", Value: "", Usage: "Target CPU Instruction Set Architecture (ISA) of the build, e.g. x86_64"},
+			&cli.StringFlag{Name: "output, o", Value: "", Usage: "File path to the resulting rpm file"},
+			&cli.StringFlag{Name: "version", Value: "", Usage: "Target version of the build"},
+			&cli.StringFlag{Name: "release", Value: "", Usage: "Target release of the build"}}}, {
+		Name: "test", Usage: "Test the package json file", Action: testPkg, Flags: []cli.Flag{
+			&cli.StringFlag{Name: "file, f", Value: "config.json", Usage: "Path to the config.json file"}}},
 	}
 
 	err := cliApp.Run(os.Args)
